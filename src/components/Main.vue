@@ -1,9 +1,15 @@
 <template>
-  <div>
+  <div class="row d-flex d-inline-block">
+    <h1>Film Trovati</h1>
     <Card 
-    v-for="film in objectFromApp"
+    v-for="film in filmFromApp"
     :key="film.id"
     :objectFromMain="film" />
+    <h1>Serie TV trovate</h1>
+    <Card 
+    v-for="tv in tvFromApp"
+    :key="tv.id"
+    :objectFromMain="tv" />
   </div>
 </template>
 
@@ -19,7 +25,8 @@ export default {
   },
 
   props:{
-    objectFromApp: Array,
+    filmFromApp: Array,
+    tvFromApp: Array
   },
 
   }
