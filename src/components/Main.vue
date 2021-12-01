@@ -1,7 +1,7 @@
 <template>
   <div>
     <Card 
-    v-for="film in films"
+    v-for="film in objectFromApp"
     :key="film.id"
     :objectFromMain="film" />
   </div>
@@ -19,22 +19,9 @@ export default {
   },
 
   props:{
-    objectFromApp: Object,
+    objectFromApp: Array,
   },
 
-  data(){
-    return{
-      films : this.objectFromApp,
-    }
-  },
-
-  methods:{
-      getFromApp(){
-        this.films = this.objectFromApp;
-      }
-    },
-    
-    
   }
 </script>
 

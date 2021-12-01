@@ -3,7 +3,7 @@
     <div class="search-and-logo d-flex justify-content-between align-items-center">
       <div class="logo">Logo</div>
       <div class="d-flex justify-content-around">
-        <input v-model="searchText" placeholder="Cerca" type="text">
+        <input v-model="searchText" placeholder="Cerca" type="text" @keyup.enter="$emit('textToApp', searchText)">
         <button @click="$emit('textToApp', searchText)" >CERCA</button>
         
         <select name="" id="">
