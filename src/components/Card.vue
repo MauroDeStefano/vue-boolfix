@@ -16,8 +16,27 @@
           <h4 v-if="objectFromMain.original_language === 'en'"><country-flag country='us' size='normal'/></h4>
           <h4 v-else-if="objectFromMain.original_language === 'it'"><country-flag country='it' size='normal'/></h4>
           <h4 v-else>paese d'origine: {{objectFromMain.original_language}}</h4>
-          <h4>voto {{objectFromMain.vote_average}}</h4>
-      
+          <h4>voto: <span v-if="objectFromMain.vote_average < 2 && objectFromMain.vote_average >= 0">
+            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+          </span>
+            <span v-else-if="objectFromMain.vote_average < 4 && objectFromMain.vote_average >= 2">
+            <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+          </span>
+          <span v-else-if="objectFromMain.vote_average < 6 && objectFromMain.vote_average >= 4">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+          </span>
+          <span v-else-if="objectFromMain.vote_average < 8 && objectFromMain.vote_average >= 6">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="far fa-star"></i>
+          </span>
+          <span v-else-if="objectFromMain.vote_average <= 10 && objectFromMain.vote_average >= 8">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </span>
+
+          {{objectFromMain.vote_average}}
+          </h4>
+
           </div>
         </div>
       </div>
@@ -35,12 +54,19 @@ export default {
   props:{
     objectFromMain: Object,
   },
+  methods:{
+    getNumerVote(num){
+      const numRet = Math.floor(num);
+      return numRet;
+    }
+  }
 
 }
 </script>
 
 <style lang="scss">
 @import '~bootstrap/scss/bootstrap.scss';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 
 
@@ -87,6 +113,14 @@ export default {
   background-color: rgba(0,0,0,0.8);
   color: white;
   transform: rotateY(180deg);
+}
+
+.fas.fa-star{
+  color: yellow;
+}
+
+.far.fa-star{
+  color: white;
 }
 
 </style>

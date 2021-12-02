@@ -48,7 +48,7 @@ export default {
       
       this.selection ="tv"; 
 
-        axios.get(`https://api.themoviedb.org/3/search/${this.selection}`,{  
+        axios.get(`https://api.themoviedb.org/3/search/${this.selection}`,{
         
         params:{
           api_key : "2090ddf1b621c402cd194562f23c0ea3",
