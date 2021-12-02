@@ -1,22 +1,28 @@
 <template>
-    <div class="card col-2">
+    <div class="mds-card m-3">
       <div class="flip-card">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <img :src="'http://image.tmdb.org/t/p/w300' + objectFromMain.poster_path" alt="">
+            <img class="mds-img-card" :src="'http://image.tmdb.org/t/p/w300' + objectFromMain.poster_path" alt="">
           </div>
         <div class="flip-card-back"> 
           <!-- TITOLO -->
-          <h4 v-if="objectFromMain.name">titolo {{objectFromMain.name}}</h4>
-          <h4 v-else>titolo {{objectFromMain.title}}</h4>
+          <h4 class="m-4" v-if="objectFromMain.name"><strong>Titolo</strong>: {{objectFromMain.name}}</h4>
+          <h4 class="m-4" v-else><strong>Titolo</strong>: {{objectFromMain.title}}</h4>
           <!-- TITOLO ORIGINALE -->
-          <h4 v-if="objectFromMain.original_name">titolo originale {{objectFromMain.original_name}}</h4>
-          <h4 v-else>titolo originale {{objectFromMain.original_title}}</h4>
+          <h4 v-if="objectFromMain.original_name"><strong>Titolo originale: </strong>{{objectFromMain.original_name}}</h4>
+          <h4 v-else><strong>Titolo originale: </strong>{{objectFromMain.original_title}}</h4>
           <!-- LINGUA ORIGINALE -->
           <h4 v-if="objectFromMain.original_language === 'en'"><country-flag country='us' size='normal'/></h4>
           <h4 v-else-if="objectFromMain.original_language === 'it'"><country-flag country='it' size='normal'/></h4>
-          <h4 v-else>paese d'origine: {{objectFromMain.original_language}}</h4>
-          <h4>voto: <span v-if="objectFromMain.vote_average < 2 && objectFromMain.vote_average >= 0">
+          <h4 v-else-if="objectFromMain.original_language === 'cn'"><country-flag country='cn' size='normal'/></h4>
+          <h4 v-else-if="objectFromMain.original_language === 'ko'"><country-flag country='kr' size='normal'/></h4>
+          <h4 v-else-if="objectFromMain.original_language === 'de'"><country-flag country='de' size='normal'/></h4>
+          <h4 v-else-if="objectFromMain.original_language === 'fr'"><country-flag country='fr' size='normal'/></h4>
+          <h4 v-else-if="objectFromMain.original_language === 'es'"><country-flag country='es' size='normal'/></h4>
+          <h4 v-else><strong>Paese d'origine:</strong>{{objectFromMain.original_language}}</h4>
+          <!-- STELLE DA UNO A 5 -->
+          <h4><strong>voto: </strong><span v-if="objectFromMain.vote_average < 2 && objectFromMain.vote_average >= 0">
             <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
           </span>
             <span v-else-if="objectFromMain.vote_average < 4 && objectFromMain.vote_average >= 2">
@@ -33,9 +39,9 @@
             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             <i class="fas fa-star"></i><i class="fas fa-star"></i>
           </span>
-
-          {{objectFromMain.vote_average}}
           </h4>
+          <!-- OVERVIEW -->
+          <p class="text-overview p-2"><strong>Overview: </strong>{{objectFromMain.overview}}</p>
 
           </div>
         </div>
@@ -44,7 +50,8 @@
 </template>
 
 <script>
-import CountryFlag from 'vue-country-flag'
+import CountryFlag from 'vue-country-flag';
+
 export default {
 
   name: "Card",
@@ -68,12 +75,17 @@ export default {
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
-
+.mds-card{
+  float: left;
+  width: 290px;
+  height: 400px;
+  
+}
 
 .flip-card {
   background-color: transparent;
-  width: 300px;
-  height: 450px;
+  width: 290px;
+  height: 400px;
   perspective: 1000px;
 }
 
@@ -97,11 +109,7 @@ export default {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-
-  img{
-    overflow: hidden;
-    object-fit: cover;
-  }
+   overflow: hidden;
 }
 
 .flip-card-front {
@@ -121,6 +129,16 @@ export default {
 
 .far.fa-star{
   color: white;
+}
+
+.text-overview{
+  overflow: auto;
+}
+
+.mds-img-card{
+  width: 290px;
+  height: 400px;
+  object-fit: cover;
 }
 
 </style>

@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <main>
     
-    <h1>Film Trovati</h1>
+    <h1 class="p-4 text-white" v-if="filmFromApp.length > 0" >Film Trovati</h1>
     <div class="d-flex d-inline-block">
       <Card 
       v-for="film in filmFromApp"
       :key="film.id"
       :objectFromMain="film" />
     </div>
-    <h1>Serie TV trovate</h1>
+    <h1 class="p-4 text-white" v-if="tvFromApp.length > 0">Serie TV trovate</h1>
     <div class="d-flex d-inline-block">
       <Card 
       v-for="tv in tvFromApp"
       :key="tv.id"
       :objectFromMain="tv" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -39,4 +39,9 @@ export default {
 
 <style lang="scss">
 @import '~bootstrap/scss/bootstrap.scss';
+
+main{
+  background-color: rgb(58, 57, 57);
+  min-height: calc(100vh - 100px);
+}
 </style>
