@@ -1,15 +1,20 @@
 <template>
-  <div class="row d-flex d-inline-block">
+  <div>
+    
     <h1>Film Trovati</h1>
-    <Card 
-    v-for="film in filmFromApp"
-    :key="film.id"
-    :objectFromMain="film" />
+    <div class="d-flex d-inline-block">
+      <Card 
+      v-for="film in filmFromApp"
+      :key="film.id"
+      :objectFromMain="film" />
+    </div>
     <h1>Serie TV trovate</h1>
-    <Card 
-    v-for="tv in tvFromApp"
-    :key="tv.id"
-    :objectFromMain="tv" />
+    <div class="d-flex d-inline-block">
+      <Card 
+      v-for="tv in tvFromApp"
+      :key="tv.id"
+      :objectFromMain="tv" />
+    </div>
   </div>
 </template>
 
