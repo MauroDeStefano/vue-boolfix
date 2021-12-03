@@ -3,9 +3,9 @@
       <div class="flip-card">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <span v-if="objectFromMain.poster_path.length < 0">Immagine copertina di {{objectFromMain.name}}{{objectFromMain.title}}non trovata</span>
-            <img v-else class="mds-img-card" :src="'http://image.tmdb.org/t/p/w300' + objectFromMain.poster_path" alt="">
-            
+            <span v-if="objectFromMain.poster_path === null">Immagine copertina di {{objectFromMain.name}}{{objectFromMain.title}} non trovata</span>
+            <img v-else class="mds-img-card" :src="'http://image.tmdb.org/t/p/w342' + objectFromMain.poster_path" alt="">
+            <img class="adult" v-if="objectFromMain.adult === true" :src="require('../assets/img/classification_18+_icon.png')" alt="">
           </div>
         <div class="flip-card-back"> 
           <!-- TITOLO -->
@@ -15,50 +15,57 @@
           <h4 v-if="objectFromMain.original_name"><strong>Titolo originale: </strong>{{objectFromMain.original_name}}</h4>
           <h4 v-else><strong>Titolo originale: </strong>{{objectFromMain.original_title}}</h4>
           <!-- LINGUA ORIGINALE -->
-          <h4 v-if="objectFromMain.original_language === 'en'"><country-flag country='us' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'it'"><country-flag country='it' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'cn'"><country-flag country='cn' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'ko'"><country-flag country='kr' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'de'"><country-flag country='de' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'fr'"><country-flag country='fr' size='normal'/></h4>
-          <h4 v-else-if="objectFromMain.original_language === 'es'"><country-flag country='es' size='normal'/></h4>
-          <h4 v-else><strong>Paese d'origine:</strong>{{objectFromMain.original_language}}</h4>
+          <h4><country-flag :country="getFlag(objectFromMain.original_language)" size='normal'/></h4>
+          
           <!-- STELLE DA UNO A 5 -->
-          <h4><strong>voto: </strong><span v-if="objectFromMain.vote_average < 2 && objectFromMain.vote_average >= 0">
-            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-          </span>
-            <span v-else-if="objectFromMain.vote_average < 4 && objectFromMain.vote_average >= 2">
-            <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-          </span>
-          <span v-else-if="objectFromMain.vote_average < 6 && objectFromMain.vote_average >= 4">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-          </span>
-          <span v-else-if="objectFromMain.vote_average < 8 && objectFromMain.vote_average >= 6">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i><i class="far fa-star"></i>
-          </span>
-          <span v-else-if="objectFromMain.vote_average <= 10 && objectFromMain.vote_average >= 8">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </span>
+          <h4><strong>voto: </strong>
+          <i v-for="(item, index) in 5"
+          :key="index"
+          class="fa-star"
+          :class="index < Math.round(objectFromMain.vote_average/2) ? 'fas' : 'far'">
+          </i>
           </h4>
           <!-- OVERVIEW -->
-          <p class="text-overview p-2"><strong>Overview: </strong>{{objectFromMain.overview}}</p>
+          <p v-if="objectFromMain.overview.length <= 100 && objectFromMain.overview.length > 0 " class="text-overview p-2"><strong>Overview: </strong>{{objectFromMain.overview}}</p>
+          <p v-if="objectFromMain.overview.length <= 0" class="text-overview p-2"><strong>Overview non disponibile</strong></p>
+          <p v-if="objectFromMain.overview.length > 100" class="text-overview p-2"><strong>Overview: </strong>{{objectFromMain.overview.slice(0,180)}}...</p>
+          <a class="btn btn-info btn-pop-up" id="show-modal" @click="showModal = true">info</a>
+
+      <!-- use the modal component, pass in the prop -->
+          <Modal v-if="showModal" @close="showModal = false" :objectFromCard="objectFromMain">
+        <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+          <h5 slot="header">{{objectFromMain.title || objectFromMain.name}}</h5>
+          <p slot="body">Data prouzione: {{objectFromMain.release_date || objectFromMain.first_air_date}}</p>
+          <p slot="body"></p>
+          <p slot="body">{{objectFromMain.overview}}</p>
+           </Modal>
+          </div>
+
 
           </div>
         </div>
       </div>
-    </div>
 </template>
 
 <script>
+import Modal from "./Modal.vue";
 import CountryFlag from 'vue-country-flag';
 
 export default {
 
   name: "Card",
   components:{
-    CountryFlag
+    CountryFlag,
+    Modal
+  },
+  data(){
+    return{
+      showModal: false,
+      flag :"",
+    }
   },
   props:{
     objectFromMain: Object,
@@ -67,6 +74,15 @@ export default {
     getNumerVote(num){
       const numRet = Math.floor(num);
       return numRet;
+    },
+    getFlag(flag){
+      let flagOut =""
+      if(flag === "en"){
+        flagOut = "us";
+      }else{
+        flagOut = this.objectFromMain.original_language;
+      }
+      return flagOut;
     }
   }
 
@@ -79,15 +95,15 @@ export default {
 
 .mds-card{
   float: left;
-  width: 290px;
-  height: 400px;
+  width: 330px;
+  height: 440px;
   
 }
 
 .flip-card {
   background-color: transparent;
-  width: 290px;
-  height: 400px;
+  width: 330px;
+  height: 440px;
   perspective: 1000px;
 }
 
@@ -138,9 +154,32 @@ export default {
 }
 
 .mds-img-card{
-  width: 290px;
-  height: 400px;
+  width: 330px;
+  height: 440px;
   object-fit: cover;
 }
+
+.btn-pop-up{
+  position:absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(100% 100%);
+  background-color: rgb(190, 9, 9)!important;
+  border: solid black !important;
+}
+
+.adult{
+  position:absolute;
+  top:0;
+  right: 0;
+
+  img{
+    width: 20px;
+    height: 20px;
+  }  
+}
+
+
+// MODAL///////////////////////////////
 
 </style>
