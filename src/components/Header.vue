@@ -1,15 +1,11 @@
 <template>
   <header>
     <div class="search-and-logo d-flex justify-content-between align-items-center">
-      <div class="logo">Logo</div>
+      <div class="logo">BOOLFLIX</div>
       <div class="d-flex justify-content-around">
-        <input v-model="searchText" placeholder="Cerca" type="text" @keyup.enter="sendEmit()">
-        <button @click="sendEmit()">CERCA</button>
-        
-        <select name="" id="">
-          <option>Film</option>
-          <option>Serie TV</option>
-        </select> 
+        <input class="" v-model="searchText" placeholder="Cerca" type="text" @keyup.enter="sendEmit()">
+        <button class="btn btn-danger" @click="sendEmit()">CERCA</button>
+      
         
       </div>  
     </div>
@@ -39,6 +35,8 @@ header{
   background-color: black;
   width: 100%;
   height: 100px;
+  position: fixed;
+  z-index: 999;
 }
 
 .logo{

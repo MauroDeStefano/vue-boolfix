@@ -3,7 +3,9 @@
       <div class="flip-card">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <img class="mds-img-card" :src="'http://image.tmdb.org/t/p/w300' + objectFromMain.poster_path" alt="">
+            <span v-if="objectFromMain.poster_path.length < 0">Immagine copertina di {{objectFromMain.name}}{{objectFromMain.title}}non trovata</span>
+            <img v-else class="mds-img-card" :src="'http://image.tmdb.org/t/p/w300' + objectFromMain.poster_path" alt="">
+            
           </div>
         <div class="flip-card-back"> 
           <!-- TITOLO -->
