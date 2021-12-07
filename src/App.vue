@@ -66,23 +66,8 @@ export default {
 
       this.selection ="movie";
     },
-
-      //NON PIACE NEANCHE A ME RIPETERMI COSì POI LO SISTEMO.
-
-
-
-    // getTvAndMovie(text){
-    //   console.log(this.getEmit(text));
-    //   this.films = this.getEmit(text);
-    //   this.selection = "tv";
-    //   console.log(this.films);
-    //   this.tvSeries = this.getEmit(text);
-    //   this.selection = "movie";
-    //   console.log(this.tvSeries);
-
-    // }
-
   }
+  
 }
 </script>
 
